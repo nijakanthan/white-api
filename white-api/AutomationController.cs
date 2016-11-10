@@ -37,7 +37,7 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Open Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing OPEN Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
@@ -46,6 +46,7 @@ namespace white_api
 
                 if (actionData != null)
                 {
+                    Console.WriteLine("OPEN: {0}", actionData.url);
                     var psi = new ProcessStartInfo(actionData.url);
                     application = TestStack.White.Application.AttachOrLaunch(psi);
                     Thread.Sleep(5000);
@@ -55,7 +56,7 @@ namespace white_api
                     response = new HttpResponseMessage(HttpStatusCode.OK);
                     response.Content = new StringContent(application.Name + " is running");
                     Console.WriteLine();
-                    Console.WriteLine("------------------------------------   Open Statement Executed   ------------------------------------");
+                    Console.WriteLine("------------------------------------   OPEN Statement Executed   ------------------------------------");
                     Console.WriteLine();
                     return response;
                 }
@@ -64,7 +65,7 @@ namespace white_api
                     response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                     response.Content = new StringContent("Another application is already opened. Wait until the current automation gets finished");
                     Console.WriteLine();
-                    Console.WriteLine("------------------------------------   Open Statement Executed   ------------------------------------");
+                    Console.WriteLine("------------------------------------   OPEN Statement Executed   ------------------------------------");
                     Console.WriteLine();
                     return response;
                 }
@@ -76,7 +77,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("No such executable file in the system. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Open Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   OPEN Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -94,13 +95,14 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Type Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing TYPE Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
                 JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
                 TypeActionData actionData = jsonSerializer.Deserialize<TypeActionData>(data.Content.ReadAsStringAsync().Result);
 
+                Console.WriteLine("TYPE: {0}", actionData.locator);
                 mainWindow.WaitWhileBusy();
                 IUIItem element = elementHandler.getIUIElement(mainWindow, actionData.locator);
                 element.Focus();
@@ -111,7 +113,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Type Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   TYPE Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -122,7 +124,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Element not found. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Type Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   TYPE Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -139,13 +141,14 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Click Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing CLICK Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
                 JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
                 ClickActionData actionData = jsonSerializer.Deserialize<ClickActionData>(data.Content.ReadAsStringAsync().Result);
 
+                Console.WriteLine("CLICK: {0}", actionData.locator);
                 IUIItem element = elementHandler.getIUIElement(mainWindow, actionData.locator);
                 element.Focus();
                 element.Click();
@@ -154,7 +157,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Click Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CLICK Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -165,7 +168,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Element not found. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Click Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CLICK Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -184,7 +187,7 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Check Element Present Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing CHECKELEMENTPRESENT Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
@@ -193,6 +196,7 @@ namespace white_api
                 IUIItem element = null;
                 Window window = null;
 
+                Console.WriteLine("CHECKELEMENTPRESENT: {0}", actionData.locator);
                 if (actionData.locator.Contains("Window"))
                 {
                     window = elementHandler.getWindow(actionData.locator);
@@ -216,7 +220,7 @@ namespace white_api
                 }
                 Console.WriteLine(response.Content);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Check Element Present Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CHECKELEMENTPRESENT Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -227,7 +231,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Error while executing. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Check Element Present Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CHECKELEMENTPRESENT Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -244,7 +248,7 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Close Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing CLOSE Statement   ------------------------------------");
             Console.WriteLine();
             if (application != null)
             {
@@ -259,7 +263,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Application closed");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Close Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CLOSE Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -268,7 +272,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("No application is opened in the web service..");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Close Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CLOSE Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -285,13 +289,15 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Right Click Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing RIGHTCLICK Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
                 JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
                 ClickActionData actionData = jsonSerializer.Deserialize<ClickActionData>(data.Content.ReadAsStringAsync().Result);
                 Thread.Sleep(1000);
+
+                Console.WriteLine("RIGHTCLICK: {0}", actionData.locator);
                 IUIItem element = elementHandler.getIUIElement(mainWindow, actionData.locator);
                 element.Focus();
                 element.Click();
@@ -303,7 +309,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Right Click Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   RIGHTCLICK Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -314,7 +320,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Error while executing. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Right Click Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   RIGHTCLICK Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -332,21 +338,22 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Double Click Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing DOUBLECLICK Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
                 JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
                 ClickActionData actionData = jsonSerializer.Deserialize<ClickActionData>(data.Content.ReadAsStringAsync().Result);
 
+                Console.WriteLine("DOUBLECLICK: {0}", actionData.locator);
                 IUIItem element = elementHandler.getIUIElement(mainWindow, actionData.locator);
                 element.DoubleClick();
-               mainWindow.WaitWhileBusy();
+                mainWindow.WaitWhileBusy();
 
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Double Click Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   DOUBLECLICK Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -357,7 +364,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Error while executing. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Double Click Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   DOUBLECLICK Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -375,13 +382,14 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Select Window Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing SELECTWINDOW Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
                 JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
                 ClickActionData actionData = jsonSerializer.Deserialize<ClickActionData>(data.Content.ReadAsStringAsync().Result);
 
+                Console.WriteLine("SELECTWINDOW: {0}", actionData.locator);
                 Window window = elementHandler.getWindow(actionData.locator);
                 mainWindow = window;
                 mainWindow.Focus();
@@ -393,7 +401,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Select Window Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   SELECTWINDOW Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -407,7 +415,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Select Window Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   SELECTWINDOW Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -442,7 +450,7 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Select Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing SELECT Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
@@ -450,7 +458,7 @@ namespace white_api
                 SelectActionData actionData = jsonSerializer.Deserialize<SelectActionData>(data.Content.ReadAsStringAsync().Result);
 
                 //string locator = HttpUtility.UrlDecode(locatorIdentifier);
-
+                Console.WriteLine("SELECT: {0}", actionData.locator);
                 TestStack.White.UIItems.ListBoxItems.ComboBox element = (TestStack.White.UIItems.ListBoxItems.ComboBox)elementHandler.getIUIElement(mainWindow, actionData.locator);
                 element.Select(actionData.selector);
                 mainWindow.WaitWhileBusy();
@@ -458,7 +466,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Select Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   SELECT Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -469,7 +477,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Error while executing. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Select Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   SELECT Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -491,7 +499,7 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Check Object Property Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing CHECKOBJECTPROPERTY Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
@@ -508,12 +516,13 @@ namespace white_api
                 TestStack.White.UIItems.TextBox element = (TestStack.White.UIItems.TextBox)elementHandler.getIUIElement(mainWindow, elementIdentifier);
                 string element_text = element.Text;
 
+                Console.WriteLine("CHECKOBJECTPROPERTY: {0}", locator);
                 if (element_text.Equals(expected_value))
                 {
                     response = new HttpResponseMessage(HttpStatusCode.OK);
                     response.Content = new StringContent("Success");
                     Console.WriteLine();
-                    Console.WriteLine("------------------------------------   Check Object Property Statement Executed   ------------------------------------");
+                    Console.WriteLine("------------------------------------   CHECKOBJECTPROPERTY Statement Executed   ------------------------------------");
                     Console.WriteLine();
                     return response;
                 }
@@ -522,7 +531,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Fail");
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Check Object Property Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CHECKOBJECTPROPERTY Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -533,7 +542,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Error while executing. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Check Object Property Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   CHECKOBJECTPROPERTY Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -552,13 +561,14 @@ namespace white_api
         {
             HttpResponseMessage response = null;
             Console.WriteLine();
-            Console.WriteLine("------------------------------------   Executing Set Var Property Statement   ------------------------------------");
+            Console.WriteLine("------------------------------------   Executing SETVARPROPERTY Statement   ------------------------------------");
             Console.WriteLine();
             try
             {
                 JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
                 SetVarPropertyActionData actionData = jsonSerializer.Deserialize<SetVarPropertyActionData>(data.Content.ReadAsStringAsync().Result);
 
+                Console.WriteLine("SETVARPROPERTY: {0}", actionData.locator);
                 IUIItem element = elementHandler.getIUIElement(mainWindow, actionData.locator);
                 object propertyValue = element.GetType().GetProperty(actionData.property).GetValue(element, null); ;
                 mainWindow.WaitWhileBusy();
@@ -566,7 +576,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent(propertyValue.ToString());
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Set Var Property Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   SETVARPROPERTY Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
 
@@ -578,7 +588,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Given property is invalid.. " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Set Var Property Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   SETVARPROPERTY Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }
@@ -589,7 +599,7 @@ namespace white_api
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("Error while executing. Actual Error: " + e.Message);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   Set Var Property Statement Executed   ------------------------------------");
+                Console.WriteLine("------------------------------------   SETVARPROPERTY Statement Executed   ------------------------------------");
                 Console.WriteLine();
                 return response;
             }

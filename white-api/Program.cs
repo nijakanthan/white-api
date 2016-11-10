@@ -41,11 +41,11 @@ namespace white_api
                 WebApp.Start<Startup>(url: baseAddress);
 
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   WHITE SEVER Version 1.2   ------------------------------------");
+                Console.WriteLine("------------------------------------   WHITE SEVER Version 1.2.1   ------------------------------------");
                 Console.WriteLine();
-                Console.WriteLine("----------------  Server running at {0} - press Enter to quit. ", baseAddress);
+                Console.WriteLine("----------------  Server running at {0} - press Ctrl + C to quit. ", baseAddress);
                 Console.WriteLine();
-                Console.WriteLine("------------------------------------   WHITE SEVER Version 1.2   ------------------------------------");
+                Console.WriteLine("------------------------------------   WHITE SEVER Version 1.2.1   ------------------------------------");
                 //Console.ReadLine();
                 new System.Threading.ManualResetEvent(false).WaitOne();
             }
