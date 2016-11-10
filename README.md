@@ -22,6 +22,6 @@
 
 ## License
 
-[MIT](https://en.wikipedia.org/wiki/MIT_License)
+[MIT](https://opensource.org/licenses/MIT)
 
 ### **** Free Open Source, Hell Yeah! ****
