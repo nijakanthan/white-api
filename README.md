@@ -21,7 +21,10 @@
 
 
 ## License
-
-[MIT](https://opensource.org/licenses/MIT)
+White-API is licensed under the MIT license. [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
 
 ### **** Open Source, Hell Yeah! ****
+
+
+## Contributing
+You are Welcome..
