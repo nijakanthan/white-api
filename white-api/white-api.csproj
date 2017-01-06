@@ -97,9 +97,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TestStack.White, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2672efbf3e161801, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\10-11-16\TestStack.White.dll</HintPath>
+    <Reference Include="TestStack.White">
+      <HintPath>..\DLL\06-01-17\TestStack.White.dll</HintPath>
     </Reference>
     <Reference Include="UIAutomationClient" />
     <Reference Include="UIAutomationClientsideProviders" />
