@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Forms;
 using TestStack.White.InputDevices;
 using TestStack.White.UIItems;
+using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WindowItems;
 using white_api.Model;
 
@@ -149,11 +150,41 @@ namespace white_api
                 ClickActionData actionData = jsonSerializer.Deserialize<ClickActionData>(data.Content.ReadAsStringAsync().Result);
 
                 Console.WriteLine("CLICK: {0}", actionData.locator);
-                IUIItem element = elementHandler.getIUIElement(mainWindow, actionData.locator);
-                element.Focus();
-                element.Click();
-                mainWindow.WaitWhileBusy();
+                IUIItem element = null;
+                if (actionData.locator.Contains("^"))
+                {
+                    String elementIdentifierNext = actionData.locator.Split('^')[0];
+                    String elementIdentifier = actionData.locator.Split('^')[1];
+                    mainWindow.Focus();
+                    mainWindow.Click();
+                    bool notVisible = true;
+                    while (notVisible)
+                    {
+                        element = elementHandler.getIUIElement(mainWindow, elementIdentifierNext);
+                        if (element.IsOffScreen)
+                        {
+                            IUIItem elementScroll = elementHandler.getIUIElement(mainWindow, elementIdentifier);
+                            elementScroll.Focus();
+                            elementScroll.Click();
+                            mainWindow.WaitWhileBusy();
+                        }
+                        else
+                        {
+                            notVisible = false;
+                        }
 
+                    }
+                    element.Focus();
+                    element.Click();
+                    mainWindow.WaitWhileBusy();
+                }
+                else
+                {
+                    element = elementHandler.getIUIElement(mainWindow, actionData.locator);
+                    element.Focus();
+                    element.Click();
+                    mainWindow.WaitWhileBusy();
+                }
                 response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent("Success");
                 Console.WriteLine();
@@ -459,8 +490,34 @@ namespace white_api
 
                 //string locator = HttpUtility.UrlDecode(locatorIdentifier);
                 Console.WriteLine("SELECT: {0}", actionData.locator);
-                TestStack.White.UIItems.ListBoxItems.ComboBox element = (TestStack.White.UIItems.ListBoxItems.ComboBox)elementHandler.getIUIElement(mainWindow, actionData.locator);
-                element.Select(actionData.selector);
+               String locator = actionData.locator;
+               if(locator.Contains("list-box"))
+               {
+                   TestStack.White.UIItems.ListBoxItems.ListBox element = (TestStack.White.UIItems.ListBoxItems.ListBox)elementHandler.getIUIElement(mainWindow, actionData.locator);
+                   element.Select(actionData.selector);
+               }
+               else if (locator.Contains("combo-box"))
+               {
+               
+                   TestStack.White.UIItems.ListBoxItems.ComboBox element = (TestStack.White.UIItems.ListBoxItems.ComboBox)elementHandler.getIUIElement(mainWindow, actionData.locator);
+                   element.Select(actionData.selector);
+               }
+           //    else if (locator.Contains("list-item"))
+             //  {
+               //    TestStack.White.UIItems.ListBoxItems.ListItem element = (TestStack.White.UIItems.ListBoxItems.ListItem)elementHandler.getIUIElement(mainWindow, actionData.locator);
+                //   element.Select();
+              // }
+               else if (locator.Contains("list-items"))
+               {
+                   TestStack.White.UIItems.ListBoxItems.ListItems element = (TestStack.White.UIItems.ListBoxItems.ListItems)elementHandler.getIUIElement(mainWindow, actionData.locator);
+                   element.Select(actionData.selector);
+               }
+              
+               
+            //    TestStack.White.UIItems.ListBoxItems.ListBox element = (TestStack.White.UIItems.ListBoxItems.ListBox)elementHandler.getIUIElement(mainWindow, actionData.locator);
+
+
+                
                 mainWindow.WaitWhileBusy();
 
                 response = new HttpResponseMessage(HttpStatusCode.OK);

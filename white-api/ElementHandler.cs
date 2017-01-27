@@ -186,7 +186,18 @@ namespace white_api
                 }
                 else
                 {
-                    SearchCriteria xpathCriteria = SearchCriteria.ByXPath(elementIdentifier, mainWindow);
+                    string elementType = elementIdentifier.Substring(0, elementIdentifier.LastIndexOf('[')).Substring(elementIdentifier.LastIndexOf('/')).Substring(1);
+                     ControlType ControlType = this.getControlType(elementType);
+                     SearchCriteria xpathCriteria;
+                     if (!ControlType.Equals(ControlType.Custom)) 
+                     {
+                          xpathCriteria = SearchCriteria.ByXPath(elementIdentifier, mainWindow).AndControlType(ControlType);
+                     }
+                     else
+                     {
+                         xpathCriteria = SearchCriteria.ByXPath(elementIdentifier, mainWindow);
+                     }
+                  
                     return mainWindow.Get(xpathCriteria);
                 }
             }
@@ -194,6 +205,53 @@ namespace white_api
             {
                 throw new Exception("Cannot identify the UIObject.. " + e.Message);
             }
+        }
+
+        private ControlType getControlType(String element)
+        {
+            
+            switch (element)
+            {
+                case "button": return ControlType.Button;                   
+                case "calendar": return ControlType.Calendar;
+                case "check-box": return ControlType.CheckBox;
+                case "combo-box": return ControlType.ComboBox;
+                case "data-grid": return ControlType.DataGrid;
+                case "data-item": return ControlType.DataItem;
+                case "edit": return ControlType.Edit;
+                case "group": return ControlType.Group;
+                case "header": return ControlType.Header;
+                case "header-item": return ControlType.HeaderItem;
+                case "hyper-link": return ControlType.Hyperlink;
+                case "image": return ControlType.Image;
+                case "list": return ControlType.List;
+                case "list-item": return ControlType.ListItem;
+                case "menu": return ControlType.Menu;
+                case "menu-bar": return ControlType.MenuBar;
+                case "menu-item": return ControlType.MenuItem;
+                case "pane": return ControlType.Pane;
+                case "progress-bar": return ControlType.ProgressBar;
+                case "radio-button": return ControlType.RadioButton;
+                case "scroll-bar": return ControlType.ScrollBar;
+                case "seperator": return ControlType.Separator;
+                case "slider": return ControlType.Slider;
+                case "spinner": return ControlType.Spinner;
+                case "split-button": return ControlType.SplitButton;
+                case "status-bar": return ControlType.StatusBar;
+                case "tab": return ControlType.Tab;
+                case "tab-item": return ControlType.TabItem;
+                case "table": return ControlType.Table;
+                case "text": return ControlType.Text;
+                case "thumb": return ControlType.Thumb;
+                case "title-bar": return ControlType.TitleBar;
+                case "tool-bar": return ControlType.ToolBar;
+                case "tool-tip": return ControlType.ToolTip;
+                case "tree": return ControlType.Tree;
+                case "tree-item": return ControlType.TreeItem;
+                case "window": return ControlType.Window;                  
+                default: return ControlType.Custom;
+            }
+          //  return null;
         }
 
         private CustomUIElement getXPathUIElement(Window mainWindow, string elementIdentifier)
